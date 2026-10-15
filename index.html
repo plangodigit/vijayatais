@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#B3261E">
+<title>विजयाताईज किचन – दिवाळी फराळ ऑर्डर</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700;800&family=Rozha+One&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Mukta',system-ui,sans-serif;background:#FFFAF0;color:#3B1A0E;padding-bottom:88px}
+  .display{font-family:'Rozha One','Mukta',serif}
+  .hero{background:radial-gradient(circle at 85% 0%,#FFB300 0,transparent 45%),linear-gradient(160deg,#B3261E,#7A120D)}
+  .wt{border:1.5px solid #E8C98A;background:#fff;border-radius:10px;padding:6px 0;font-weight:700;font-size:14px;transition:.15s}
+  .wt[aria-pressed="true"]{background:#E8620C;border-color:#E8620C;color:#fff}
+  .ph{background:linear-gradient(135deg,#FFD27A,#F29A3B);display:flex;align-items:center;justify-content:center;font-size:56px}
+  input,textarea{width:100%;border:1.5px solid #E8C98A;border-radius:12px;padding:12px;background:#fff;font-size:16px}
+  input:focus,textarea:focus,button:focus-visible{outline:3px solid #FFB300;outline-offset:1px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="shop">
+<!-- ============ HEADER ============ -->
+<header class="hero text-white px-5 pt-10 pb-12 text-center" style="padding-top:max(2.5rem,env(safe-area-inset-top))">
+  <div class="text-4xl mb-2" aria-hidden="true">🪔</div>
+  <h1 class="display text-4xl leading-tight">विजयाताईज किचन</h1>
+  <p class="text-sm opacity-90 -mt-0.5">Vijayatai's Kitchen</p>
+  <p class="mt-3 text-lg font-semibold text-amber-200">घरगुती आणि अस्सल चवीचा दिवाळी फराळ</p>
+</header>
+
+<!-- ============ MENU ============ -->
+<main class="max-w-3xl mx-auto px-4 -mt-6">
+  <section id="menu" class="grid grid-cols-1 sm:grid-cols-2 gap-4" aria-label="फराळ मेनू"></section>
+
+  <!-- ============ CHECKOUT ============ -->
+  <section id="checkout" class="mt-8 bg-white rounded-2xl border border-amber-200 p-5 shadow-sm">
+    <h2 class="display text-2xl text-red-800">तुमची ऑर्डर</h2>
+
+    <details open class="mt-3">
+      <summary class="cursor-pointer font-bold text-orange-700">ऑर्डर सारांश</summary>
+      <div id="summary" class="mt-3 text-[15px]"></div>
+    </details>
+
+    <div class="mt-5 space-y-3">
+      <label class="block font-semibold">नाव <span class="text-red-700">*</span>
+        <input id="name" type="text" autocomplete="name" placeholder="तुमचे पूर्ण नाव"></label>
+      <label class="block font-semibold">मोबाईल नंबर <span class="text-red-700">*</span>
+        <input id="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" placeholder="10 अंकी मोबाईल नंबर"></label>
+    </div>
+
+    <fieldset class="mt-5">
+      <legend class="font-semibold mb-2">डिलिव्हरी पर्याय</legend>
+      <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-amber-200 has-[:checked]:border-orange-600 has-[:checked]:bg-orange-50 mb-2">
+        <input type="radio" name="dm" value="pickup" checked class="!w-5 !h-5 accent-orange-600">
+        <span><b>पर्याय १: काऊंटर पिकअप</b> (Self Pickup)<br><span class="text-sm text-green-700 font-semibold">मोफत – ₹0</span></span>
+      </label>
+      <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-amber-200 has-[:checked]:border-orange-600 has-[:checked]:bg-orange-50">
+        <input type="radio" name="dm" value="delivery" class="!w-5 !h-5 accent-orange-600">
+        <span><b>पर्याय २: होम डिलिव्हरी</b> (Home Delivery)<br><span class="text-sm text-red-800 font-semibold">+ ₹100 डिलिव्हरी शुल्क</span></span>
+      </label>
+    </fieldset>
+
+    <label id="addrWrap" class="hidden mt-4 font-semibold">डिलिव्हरीचा पत्ता <span class="text-red-700">*</span>
+      <textarea id="addr" rows="3" placeholder="फ्लॅट/घर नंबर, इमारत, परिसर, पिन कोड"></textarea></label>
+
+    <p id="err" class="mt-4 text-red-700 font-semibold hidden" role="alert"></p>
+
+    <button id="send" class="mt-5 w-full py-4 rounded-2xl text-lg font-extrabold text-white shadow-lg bg-gradient-to-r from-orange-500 to-red-700 active:scale-[.98]">
+      ऑर्डर व्हॉट्सअ‍ॅपवर पाठवा
+    </button>
+    <p class="mt-2 text-center text-xs text-stone-500">Send Order via WhatsApp · ऑर्डर कन्फर्म झाल्यावर आम्ही तुम्हाला संपर्क करू</p>
+  </section>
+
+  <footer class="text-center text-sm text-stone-500 py-8">🪔 शुभ दीपावली! 🪔<br>विजयाताईज किचन<br><a href="#admin" class="underline text-xs">मालक लॉगिन</a></footer>
+</main>
+
+<!-- ============ FIXED BOTTOM BAR ============ -->
+<div class="fixed inset-x-0 bottom-0 bg-white border-t-2 border-amber-300 shadow-[0_-4px_16px_rgba(0,0,0,.08)] z-20" style="padding-bottom:env(safe-area-inset-bottom)">
+  <div class="max-w-3xl mx-auto flex items-center justify-between px-4 py-3">
+    <div>
+      <div class="text-xs text-stone-500"><span id="count">0</span> पदार्थ निवडले</div>
+      <div class="text-xl font-extrabold text-red-800">₹<span id="barTotal">0</span></div>
+    </div>
+    <button id="goBtn" class="px-5 py-3 rounded-xl bg-orange-600 text-white font-bold">बिल पहा / ऑर्डर करा</button>
+  </div>
+</div>
+
+</div><!-- /shop -->
+
+<!-- ============ OWNER PANEL (index.html#admin) ============ -->
+<div id="admin" class="hidden max-w-3xl mx-auto px-4 py-6" style="padding-bottom:110px">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="display text-2xl text-red-800">मालक पॅनेल</h1>
+    <a href="#" class="text-sm underline text-orange-700">← ग्राहक मेनू</a>
+  </div>
+  <form id="loginBox" class="bg-white rounded-2xl border border-amber-200 p-5 space-y-3">
+    <label id="emailWrap" class="block font-semibold">ईमेल<input id="aEmail" type="email" autocomplete="username"></label>
+    <label class="block font-semibold">पासवर्ड<input id="aPass" type="password" autocomplete="current-password"></label>
+    <p id="aErr" class="text-red-700 font-semibold hidden" role="alert"></p>
+    <button class="w-full py-3 rounded-xl bg-orange-600 text-white font-bold">लॉगिन</button>
+  </form>
+  <div id="editor" class="hidden">
+    <p class="text-sm text-stone-600 mb-3">नाव, दर, फोटो बदला. संपलेला पदार्थ 🗑 ने काढा. शेवटी "सेव्ह करा" दाबा.</p>
+    <div id="rows" class="space-y-4"></div>
+    <div class="fixed inset-x-0 bottom-0 bg-white border-t-2 border-amber-300 z-20" style="padding-bottom:env(safe-area-inset-bottom)">
+      <div class="max-w-3xl mx-auto px-4 py-3">
+        <p id="saveMsg" class="text-sm font-semibold text-center mb-2 hidden"></p>
+        <div class="grid grid-cols-3 gap-2">
+          <button id="addBtn" class="py-3 rounded-xl border-2 border-orange-600 text-orange-700 font-bold">+ नवीन</button>
+          <button id="saveBtn" class="py-3 rounded-xl bg-orange-600 text-white font-bold">सेव्ह करा</button>
+          <button id="outBtn" class="py-3 rounded-xl border-2 border-stone-300 font-bold">लॉगआउट</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIG – येथे बदल करा (EDIT HERE)
+   ---------------------------------------------------------------------
+   name  : मराठी नाव        | en : English नाव
+   rate  : प्रति किलो दर (₹ per kg)  <-- भाव बदलण्यासाठी हा आकडा बदला
+   img   : फोटोची लिंक (image URL). लिंक चालली नाही तर emoji दिसेल.
+   emoji : फोटो नसल्यास दिसणारा चिन्ह
+   ===================================================================== */
+const WHATSAPP_NUMBER = "9158858885";   // व्हॉट्सअ‍ॅप नंबर (देश कोड ९१ आपोआप जोडला जातो)
+const DELIVERY_FEE = 100;               // होम डिलिव्हरी शुल्क (₹)
+const DEFAULT_ITEMS = [
+  { id:"chakli",   name:"भाजणी चकली",      en:"Bhajani Chakli",    rate:500, emoji:"🥨", img:"https://images.unsplash.com/photo-1630409351217-bc4fa6422075?w=600&q=70" },
+  { id:"ladoo",    name:"बेसनाचे लाडू",     en:"Besan Ladoo",       rate:600, emoji:"🟡", img:"https://images.unsplash.com/photo-1605197509751-8b1b1b3b3a0f?w=600&q=70" },
+  { id:"karanji",  name:"करंजी",           en:"Karanji",           rate:600, emoji:"🥟", img:"https://images.unsplash.com/photo-1666190092159-3171cf0fbb12?w=600&q=70" },
+  { id:"godshank", name:"गोड शंकरपाळे",     en:"God Shankarpali",   rate:400, emoji:"🔶", img:"https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=600&q=70" },
+  { id:"kharshank",name:"खारे शंकरपाळे",    en:"Khare Shankarpali", rate:400, emoji:"🔸", img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=70" },
+  { id:"anarse",   name:"अनारसे",          en:"Anarse",            rate:800, emoji:"🍪", img:"https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&q=70" },
+  { id:"tikhat",   name:"तिखट शेव",        en:"Tikhat Shev",       rate:420, emoji:"🍜", img:"https://images.unsplash.com/photo-1613292443284-8d10ef9383fe?w=600&q=70" },
+  { id:"barik",    name:"बारीक शेव",        en:"Barik Shev",        rate:420, emoji:"🍝", img:"https://images.unsplash.com/photo-1626074353765-517a681e40be?w=600&q=70" },
+  { id:"chivda",   name:"पोहा चिवडा",       en:"Poha Chivda",       rate:400, emoji:"🥜", img:"https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&q=70" }
+];
+// वजनाचे पर्याय (grams): 0 = None
+const WEIGHTS = [0, 250, 500, 1000, 2000];
+
+/* ---------- मालक लॉगिन / शेअर्ड सेव्हिंग (OWNER SETUP) ----------
+   Firebase (मोफत) भरल्यावर मालकाचे बदल सर्व ग्राहकांना दिसतात.
+   dbUrl : Realtime Database URL  (उदा. https://xxxx-default-rtdb.firebaseio.com)
+   apiKey: Firebase Project Settings -> Web API Key
+   हे रिकामे ठेवले तर "डेमो मोड": बदल फक्त त्याच मोबाईल/ब्राउझरमध्ये सेव्ह होतात,
+   पासवर्ड खाली LOCAL_PASSWORD आहे. */
+const FB = { dbUrl: "", apiKey: "" };
+const LOCAL_PASSWORD = "vijaya123";
+let ITEMS = DEFAULT_ITEMS.slice();
+/* ===================================================================== */
+
+const $ = id => document.getElementById(id);
+const qty = {};                       // { itemId: grams }
+const wLabel = g => g===0 ? "None (0)" : g>=1000 ? (g/1000)+"kg" : g+"g";
+const price = (it,g) => Math.round(it.rate*g/1000);
+const isDelivery = () => document.querySelector('input[name=dm]:checked').value === "delivery";
+
+/* ---------- Render menu cards ---------- */
+function renderMenu(){ $("menu").innerHTML = ITEMS.map(it => `
+  <article class="bg-white rounded-2xl overflow-hidden border border-amber-200 shadow-sm">
+    <div class="h-40 ph relative">
+      <span>${it.emoji}</span>
+      <img src="${it.img}" alt="${it.en}" loading="lazy" class="absolute inset-0 w-full h-full object-cover"
+           onerror="this.remove()">
+    </div>
+    <div class="p-4">
+      <h3 class="display text-xl text-red-800 leading-snug">${it.name}</h3>
+      <p class="text-sm text-stone-500">${it.en}</p>
+      <p class="mt-1 font-bold text-orange-700">₹${it.rate} / किलो</p>
+      <div class="grid grid-cols-5 gap-1.5 mt-3" role="group" aria-label="${it.en} वजन">
+        ${WEIGHTS.map(g=>`<button class="wt" data-id="${it.id}" data-g="${g}" aria-pressed="${g===0}">${g===0?"None":wLabel(g)}</button>`).join("")}
+      </div>
+      <p class="mt-3 text-right font-extrabold">उप-रक्कम: <span class="text-red-800" id="sub-${it.id}">₹0</span></p>
+    </div>
+  </article>`).join(""); update(); }
+
+/* ---------- Totals & summary ---------- */
+function chosen(){ return ITEMS.filter(it => (qty[it.id]||0) > 0); }
+function totals(){
+  const items = chosen().reduce((s,it)=>s+price(it,qty[it.id]),0);
+  const fee = items>0 && isDelivery() ? DELIVERY_FEE : 0;
+  return { items, fee, grand: items+fee };
+}
+function update(){
+  const t = totals(), list = chosen();
+  ITEMS.forEach(it => $("sub-"+it.id).textContent = "₹"+price(it,qty[it.id]||0));
+  document.querySelectorAll(".wt").forEach(b => b.setAttribute("aria-pressed", (qty[b.dataset.id]||0)===+b.dataset.g));
+  $("count").textContent = list.length;
+  $("barTotal").textContent = t.grand;
+  $("summary").innerHTML = list.length ? `
+    <ul class="divide-y divide-amber-100">${list.map(it=>`
+      <li class="flex justify-between py-2"><span>${it.name} <span class="text-stone-500">· ${wLabel(qty[it.id])}</span></span><b>₹${price(it,qty[it.id])}</b></li>`).join("")}</ul>
+    <div class="flex justify-between pt-3"><span>फराळ एकूण</span><b>₹${t.items}</b></div>
+    <div class="flex justify-between"><span>डिलिव्हरी शुल्क</span><b>₹${t.fee}</b></div>
+    <div class="flex justify-between mt-2 pt-2 border-t-2 border-amber-300 text-lg font-extrabold text-red-800"><span>ठोकळ रक्कम (Grand Total)</span><span>₹${t.grand}</span></div>`
+    : `<p class="text-stone-500">अजून काहीही निवडलेले नाही. वर मेनूमधून वजन निवडा.</p>`;
+}
+
+/* ---------- Events ---------- */
+$("menu").addEventListener("click", e => {
+  const b = e.target.closest(".wt"); if(!b) return;
+  qty[b.dataset.id] = +b.dataset.g; update();
+});
+document.querySelectorAll("input[name=dm]").forEach(r => r.addEventListener("change", () => {
+  $("addrWrap").classList.toggle("hidden", !isDelivery()); update();
+}));
+$("goBtn").addEventListener("click", () => $("checkout").scrollIntoView({behavior:"smooth"}));
+
+/* ---------- Validate & send to WhatsApp ---------- */
+$("send").addEventListener("click", () => {
+  const name = $("name").value.trim(), phone = $("phone").value.trim(), addr = $("addr").value.trim();
+  const fail = m => { const e=$("err"); e.textContent=m; e.classList.remove("hidden"); e.scrollIntoView({behavior:"smooth",block:"center"}); };
+  if (!chosen().length) return fail("कृपया किमान एक पदार्थ निवडा.");
+  if (!name) return fail("कृपया तुमचे नाव लिहा.");
+  if (!/^[6-9]\d{9}$/.test(phone)) return fail("कृपया वैध १० अंकी मोबाईल नंबर लिहा.");
+  if (isDelivery() && !addr) return fail("होम डिलिव्हरीसाठी पत्ता लिहिणे आवश्यक आहे.");
+  $("err").classList.add("hidden");
+
+  const t = totals(), line = "--------------------------------";
+  const msg = [
+    "🪔 *नवीन दिवाळी फराळ ऑर्डर - विजयाताईज किचन* 🪔", line,
+    `👤 *ग्राहकाचे नाव:* ${name}`,
+    `📞 *मोबाईल:* ${phone}`,
+    `🚚 *डिलिव्हरी प्रकार:* ${isDelivery() ? "होम डिलिव्हरी" : "काऊंटर पिकअप"}`,
+    ...(isDelivery() ? [`📍 *पत्ता:* ${addr}`] : []), line,
+    "📦 *ऑर्डर तपशील:*",
+    ...chosen().map(it => `• ${it.name}: ${wLabel(qty[it.id])} - ₹${price(it,qty[it.id])}`), line,
+    `💵 फराळ एकूण: ₹${t.items}`,
+    `🛵 डिलिव्हरी शुल्क: ₹${t.fee}`,
+    `💰 *एकूण बिल (Grand Total): ₹${t.grand}*`, line,
+    "कृपया ऑर्डर कन्फर्म करावी ही विनंती! 🙏"
+  ].join("\n");
+
+  window.location.href = `https://wa.me/91${WHATSAPP_NUMBER.replace(/\D/g,"").slice(-10)}?text=${encodeURIComponent(msg)}`;
+});
+
+/* ================= लोड / सेव्ह (Load & Save) ================= */
+let token = sessionStorage.getItem("tok") || "";
+const cloud = !!(FB.dbUrl && FB.apiKey);
+
+async function load(){
+  renderMenu();
+  try {
+    const d = cloud ? await (await fetch(FB.dbUrl + "/menu.json")).json()
+                    : JSON.parse(localStorage.getItem("menu") || "null");
+    if (d && d.v) { ITEMS = d.items ? Object.values(d.items) : []; renderMenu(); }
+  } catch(e) {}
+}
+async function saveMenu(list){
+  const body = { v: 1, items: list };
+  if (!cloud) { localStorage.setItem("menu", JSON.stringify(body)); return true; }
+  const r = await fetch(FB.dbUrl + "/menu.json?auth=" + token, { method:"PUT", body: JSON.stringify(body) });
+  if (r.status === 401) throw new Error("login");
+  return r.ok;
+}
+
+/* ================= मालक लॉगिन (Owner login) ================= */
+let draft = [];
+const aErr = m => { const e = $("aErr"); e.textContent = m; e.classList.toggle("hidden", !m); };
+$("emailWrap").classList.toggle("hidden", !cloud);
+
+$("loginBox").addEventListener("submit", async e => {
+  e.preventDefault(); aErr("");
+  const pass = $("aPass").value;
+  if (!cloud) {
+    if (pass !== LOCAL_PASSWORD) return aErr("पासवर्ड चुकीचा आहे.");
+    token = "local";
+  } else {
+    try {
+      const r = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + FB.apiKey, {
+        method:"POST", body: JSON.stringify({ email: $("aEmail").value.trim(), password: pass, returnSecureToken: true }) });
+      const d = await r.json();
+      if (!d.idToken) return aErr("ईमेल किंवा पासवर्ड चुकीचा आहे.");
+      token = d.idToken;
+    } catch(x) { return aErr("इंटरनेट तपासा आणि पुन्हा प्रयत्न करा."); }
+  }
+  sessionStorage.setItem("tok", token); $("aPass").value = ""; showAdmin();
+});
+$("outBtn").addEventListener("click", () => { token = ""; sessionStorage.removeItem("tok"); showAdmin(); });
+
+/* ================= एडिट पेज (Editor) ================= */
+function showAdmin(){
+  const on = !!token;
+  $("loginBox").classList.toggle("hidden", on);
+  $("editor").classList.toggle("hidden", !on);
+  if (on) { draft = JSON.parse(JSON.stringify(ITEMS)); renderRows(); }
+}
+function renderRows(){
+  $("rows").innerHTML = draft.length ? draft.map((it, i) => `
+    <div class="bg-white rounded-2xl border border-amber-200 p-4">
+      <div class="flex gap-3">
+        <div class="w-24 h-24 rounded-xl overflow-hidden ph !text-4xl shrink-0 relative">
+          <span>${it.emoji || "🍽️"}</span>
+          <img src="${it.img || ""}" class="absolute inset-0 w-full h-full object-cover" onerror="this.remove()">
+        </div>
+        <div class="flex-1 space-y-2">
+          <input data-i="${i}" data-f="name" value="${(it.name||"").replace(/"/g,"&quot;")}" placeholder="मराठी नाव">
+          <input data-i="${i}" data-f="en" value="${(it.en||"").replace(/"/g,"&quot;")}" placeholder="English name">
+        </div>
+      </div>
+      <div class="flex items-center gap-2 mt-3">
+        <span class="font-semibold shrink-0">₹ / किलो</span>
+        <input data-i="${i}" data-f="rate" type="number" inputmode="numeric" min="0" value="${it.rate}">
+      </div>
+      <div class="flex items-center justify-between mt-3">
+        <label class="px-3 py-2 rounded-xl border-2 border-amber-300 font-semibold cursor-pointer">📷 फोटो बदला
+          <input type="file" accept="image/*" data-img="${i}" class="hidden"></label>
+        <button data-del="${i}" class="px-3 py-2 rounded-xl border-2 border-red-300 text-red-700 font-bold">🗑 काढून टाका</button>
+      </div>
+    </div>`).join("") : '<p class="text-stone-500">मेनू रिकामा आहे. "+ नवीन" दाबा.</p>';
+}
+$("rows").addEventListener("input", e => {
+  const t = e.target; if (t.dataset.i === undefined) return;
+  draft[t.dataset.i][t.dataset.f] = t.dataset.f === "rate" ? Math.max(0, +t.value || 0) : t.value;
+});
+$("rows").addEventListener("click", e => {
+  const b = e.target.closest("[data-del]"); if (!b) return;
+  const it = draft[b.dataset.del];
+  if (confirm((it.name || "हा पदार्थ") + " मेनूमधून काढायचा?")) { draft.splice(b.dataset.del, 1); renderRows(); }
+});
+// फोटो निवडल्यावर तो लहान करून (640px) सेव्ह होतो
+$("rows").addEventListener("change", e => {
+  const f = e.target.files && e.target.files[0], i = e.target.dataset.img; if (!f) return;
+  const img = new Image();
+  img.onload = () => {
+    const sc = Math.min(1, 640 / img.width), c = document.createElement("canvas");
+    c.width = img.width * sc; c.height = img.height * sc;
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    draft[i].img = c.toDataURL("image/jpeg", 0.72); renderRows();
+  };
+  img.src = URL.createObjectURL(f);
+});
+$("addBtn").addEventListener("click", () => {
+  draft.push({ id: "i" + Date.now(), name: "", en: "", rate: 0, emoji: "🍽️", img: "" });
+  renderRows(); $("rows").lastElementChild.scrollIntoView({ behavior:"smooth" });
+});
+$("saveBtn").addEventListener("click", async () => {
+  const m = $("saveMsg"), say = (t, ok) => { m.textContent = t; m.className = "text-sm font-semibold text-center mb-2 " + (ok ? "text-green-700" : "text-red-700"); };
+  if (draft.some(d => !d.name.trim())) return say("प्रत्येक पदार्थाला मराठी नाव द्या.", false);
+  try {
+    if (await saveMenu(draft)) { ITEMS = JSON.parse(JSON.stringify(draft)); renderMenu(); say("सेव्ह झाले ✔", true); }
+    else say("सेव्ह झाले नाही. पुन्हा प्रयत्न करा.", false);
+  } catch(x) { token = ""; sessionStorage.removeItem("tok"); showAdmin(); aErr("सेशन संपले. पुन्हा लॉगिन करा."); }
+});
+
+/* ================= पेज बदल (#admin) ================= */
+function route(){
+  const a = location.hash === "#admin";
+  $("shop").classList.toggle("hidden", a);
+  $("admin").classList.toggle("hidden", !a);
+  if (a) showAdmin(); else window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+
+load().then(route);
+</script>
+</body>
+</html>
