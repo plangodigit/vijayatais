@@ -73,7 +73,7 @@
     <p class="mt-2 text-center text-xs text-stone-500">Send Order via WhatsApp · ऑर्डर कन्फर्म झाल्यावर आम्ही तुम्हाला संपर्क करू</p>
   </section>
 
-  <footer class="text-center text-sm text-stone-500 py-8">🪔 शुभ दीपावली! 🪔<br>विजयाताईज किचन<br><a href="#admin" class="underline text-xs">मालक लॉगिन</a></footer>
+  <footer class="text-center text-sm text-stone-500 py-8">शुभ दीपावली!<br>विजयाताईज किचन<br><a href="#admin" class="underline text-xs">मालक लॉगिन</a></footer>
 </main>
 
 <!-- ============ FIXED BOTTOM BAR ============ -->
@@ -102,7 +102,7 @@
     <button class="w-full py-3 rounded-xl bg-orange-600 text-white font-bold">लॉगिन</button>
   </form>
   <div id="editor" class="hidden">
-    <p class="text-sm text-stone-600 mb-3">नाव, दर, फोटो बदला. संपलेला पदार्थ 🗑 ने काढा. शेवटी "सेव्ह करा" दाबा.</p>
+    <p class="text-sm text-stone-600 mb-3">नाव, दर, फोटो बदला. संपलेला पदार्थ काढून टाका. शेवटी "सेव्ह करा" दाबा.</p>
     <div id="rows" class="space-y-4"></div>
     <div class="fixed inset-x-0 bottom-0 bg-white border-t-2 border-amber-300 z-20" style="padding-bottom:env(safe-area-inset-bottom)">
       <div class="max-w-3xl mx-auto px-4 py-3">
@@ -119,7 +119,7 @@
 
 <script>
 /* =====================================================================
-   CONFIG – येथे बदल करा (EDIT HERE)
+   CONFIG
    ===================================================================== */
 const WHATSAPP_NUMBER = "9158858885";
 const DELIVERY_FEE = 100;
@@ -197,6 +197,7 @@ document.querySelectorAll("input[name=dm]").forEach(r => r.addEventListener("cha
 }));
 $("goBtn").addEventListener("click", () => $("checkout").scrollIntoView({behavior:"smooth"}));
 
+/* ---------- WHATSAPP ORDER (स्वच्छ आणि त्रुटीमुक्त मेसेज) ---------- */
 $("send").addEventListener("click", () => {
   const name = $("name").value.trim(), phone = $("phone").value.trim(), addr = $("addr").value.trim();
   const fail = m => { const e=$("err"); e.textContent=m; e.classList.remove("hidden"); e.scrollIntoView({behavior:"smooth",block:"center"}); };
@@ -208,17 +209,17 @@ $("send").addEventListener("click", () => {
 
   const t = totals(), line = "--------------------------------";
   const msg = [
-    "🪔 *नवीन दिवाळी फराळ ऑर्डर - विजयाताईज किचन* 🪔", line,
-    `👤 *ग्राहकाचे नाव:* ${name}`,
-    `📞 *मोबाईल:* ${phone}`,
-    `🚚 *डिलिव्हरी प्रकार:* ${isDelivery() ? "होम डिलिव्हरी" : "काऊंटर पिकअप"}`,
-    ...(isDelivery() ? [`📍 *पत्ता:* ${addr}`] : []), line,
-    "📦 *ऑर्डर तपशील:*",
+    "*नवीन दिवाळी फराळ ऑर्डर - विजयाताईज किचन*", line,
+    `*ग्राहकाचे नाव:* ${name}`,
+    `*मोबाईल:* ${phone}`,
+    `*डिलिव्हरी प्रकार:* ${isDelivery() ? "होम डिलिव्हरी" : "काऊंटर पिकअप"}`,
+    ...(isDelivery() ? [`*पत्ता:* ${addr}`] : []), line,
+    "*ऑर्डर तपशील:*",
     ...chosen().map(it => `• ${it.name}: ${wLabel(qty[it.id])} - ₹${price(it,qty[it.id])}`), line,
-    `💵 फराळ एकूण: ₹${t.items}`,
-    `🛵 डिलिव्हरी शुल्क: ₹${t.fee}`,
-    `💰 *एकूण बिल (Grand Total): ₹${t.grand}*`, line,
-    "कृपया ऑर्डर कन्फर्म करावी ही विनंती! 🙏"
+    `फराळ एकूण: ₹${t.items}`,
+    `डिलिव्हरी शुल्क: ₹${t.fee}`,
+    `*एकूण बिल (Grand Total): ₹${t.grand}*`, line,
+    "कृपया ऑर्डर कन्फर्म करावी ही विनंती!"
   ].join("\n");
 
   window.location.href = `https://wa.me/91${WHATSAPP_NUMBER.replace(/\D/g,"").slice(-10)}?text=${encodeURIComponent(msg)}`;
@@ -318,7 +319,7 @@ function renderRows(){
       <div class="flex items-center justify-between mt-3">
         <label class="px-3 py-2 rounded-xl border-2 border-amber-300 font-semibold cursor-pointer">📷 फोटो बदला
           <input type="file" accept="image/*" data-img="${i}" class="hidden"></label>
-        <button data-del="${i}" class="px-3 py-2 rounded-xl border-2 border-red-300 text-red-700 font-bold">🗑 काढून टाका</button>
+        <button data-del="${i}" class="px-3 py-2 rounded-xl border-2 border-red-300 text-red-700 font-bold">काढून टाका</button>
       </div>
     </div>`).join("") : '<p class="text-stone-500">मेनू रिकामा आहे. "+ नवीन" दाबा.</p>';
 }
