@@ -96,9 +96,9 @@
     <a href="#" class="text-sm underline text-orange-700">← ग्राहक मेनू</a>
   </div>
   <form id="loginBox" class="bg-white rounded-2xl border border-amber-200 p-5 space-y-3">
-    <label id="emailWrap" class="block font-semibold">ईमेल<input id="aEmail" type="email" autocomplete="username"></label>
-    <label class="block font-semibold">पासवर्ड<input id="aPass" type="password" autocomplete="current-password"></label>
-    <p id="aErr" class="text-red-700 font-semibold hidden" role="alert"></p>
+    <label id="emailWrap" class="block font-semibold">ईमेल<input id="aEmail" type="email" autocomplete="username" value="plangodigit@gmail.com"></label>
+    <label class="block font-semibold">पासवर्ड<input id="aPass" type="password" autocomplete="current-password" placeholder="तुमचा पासवर्ड टाका"></label>
+    <p id="aErr" class="text-red-700 font-semibold hidden text-sm" role="alert"></p>
     <button class="w-full py-3 rounded-xl bg-orange-600 text-white font-bold">लॉगिन</button>
   </form>
   <div id="editor" class="hidden">
@@ -120,14 +120,9 @@
 <script>
 /* =====================================================================
    CONFIG – येथे बदल करा (EDIT HERE)
-   ---------------------------------------------------------------------
-   name  : मराठी नाव        | en : English नाव
-   rate  : प्रति किलो दर (₹ per kg)  <-- भाव बदलण्यासाठी हा आकडा बदला
-   img   : फोटोची लिंक (image URL). लिंक चालली नाही तर emoji दिसेल.
-   emoji : फोटो नसल्यास दिसणारा चिन्ह
    ===================================================================== */
-const WHATSAPP_NUMBER = "9158858885";   // व्हॉट्सअ‍ॅप नंबर (देश कोड ९१ आपोआप जोडला जातो)
-const DELIVERY_FEE = 100;               // होम डिलिव्हरी शुल्क (₹)
+const WHATSAPP_NUMBER = "9158858885";
+const DELIVERY_FEE = 100;
 const DEFAULT_ITEMS = [
   { id:"chakli",   name:"भाजणी चकली",      en:"Bhajani Chakli",    rate:500, emoji:"🥨", img:"https://images.unsplash.com/photo-1630409351217-bc4fa6422075?w=600&q=70" },
   { id:"ladoo",    name:"बेसनाचे लाडू",     en:"Besan Ladoo",       rate:600, emoji:"🟡", img:"https://images.unsplash.com/photo-1605197509751-8b1b1b3b3a0f?w=600&q=70" },
@@ -139,30 +134,21 @@ const DEFAULT_ITEMS = [
   { id:"barik",    name:"बारीक शेव",        en:"Barik Shev",        rate:420, emoji:"🍝", img:"https://images.unsplash.com/photo-1626074353765-517a681e40be?w=600&q=70" },
   { id:"chivda",   name:"पोहा चिवडा",       en:"Poha Chivda",       rate:400, emoji:"🥜", img:"https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&q=70" }
 ];
-// वजनाचे पर्याय (grams): 0 = None
 const WEIGHTS = [0, 250, 500, 1000, 2000];
 
-/* ---------- मालक लॉगिन / शेअर्ड सेव्हिंग (OWNER SETUP) ----------
-   Firebase (मोफत) भरल्यावर मालकाचे बदल सर्व ग्राहकांना दिसतात.
-   dbUrl : Realtime Database URL  (उदा. https://xxxx-default-rtdb.firebaseio.com)
-   apiKey: Firebase Project Settings -> Web API Key
-   हे रिकामे ठेवले तर "डेमो मोड": बदल फक्त त्याच मोबाईल/ब्राउझरमध्ये सेव्ह होतात,
-   पासवर्ड खाली LOCAL_PASSWORD आहे. */
 const FB = { 
   dbUrl: "https://vijayatai-kitchen-default-rtdb.asia-southeast1.firebasedatabase.app", 
   apiKey: "AIzaSyQgyt6Zx62Jm9vO4eXApaVQDOstTFCTpMg" 
 };
-const LOCAL_PASSWORD = "vijaya123";
+const BACKUP_PASSWORDS = ["Vijaya12345", "vijaya123", "Vijaya@123"];
 let ITEMS = DEFAULT_ITEMS.slice();
-/* ===================================================================== */
 
 const $ = id => document.getElementById(id);
-const qty = {};                       // { itemId: grams }
+const qty = {};
 const wLabel = g => g===0 ? "None (0)" : g>=1000 ? (g/1000)+"kg" : g+"g";
 const price = (it,g) => Math.round(it.rate*g/1000);
 const isDelivery = () => document.querySelector('input[name=dm]:checked').value === "delivery";
 
-/* ---------- Render menu cards ---------- */
 function renderMenu(){ $("menu").innerHTML = ITEMS.map(it => `
   <article class="bg-white rounded-2xl overflow-hidden border border-amber-200 shadow-sm">
     <div class="h-40 ph relative">
@@ -181,7 +167,6 @@ function renderMenu(){ $("menu").innerHTML = ITEMS.map(it => `
     </div>
   </article>`).join(""); update(); }
 
-/* ---------- Totals & summary ---------- */
 function chosen(){ return ITEMS.filter(it => (qty[it.id]||0) > 0); }
 function totals(){
   const items = chosen().reduce((s,it)=>s+price(it,qty[it.id]),0);
@@ -190,7 +175,7 @@ function totals(){
 }
 function update(){
   const t = totals(), list = chosen();
-  ITEMS.forEach(it => $("sub-"+it.id).textContent = "₹"+price(it,qty[it.id]||0));
+  ITEMS.forEach(it => { const el = $("sub-"+it.id); if (el) el.textContent = "₹"+price(it,qty[it.id]||0); });
   document.querySelectorAll(".wt").forEach(b => b.setAttribute("aria-pressed", (qty[b.dataset.id]||0)===+b.dataset.g));
   $("count").textContent = list.length;
   $("barTotal").textContent = t.grand;
@@ -203,7 +188,6 @@ function update(){
     : `<p class="text-stone-500">अजून काहीही निवडलेले नाही. वर मेनूमधून वजन निवडा.</p>`;
 }
 
-/* ---------- Events ---------- */
 $("menu").addEventListener("click", e => {
   const b = e.target.closest(".wt"); if(!b) return;
   qty[b.dataset.id] = +b.dataset.g; update();
@@ -213,7 +197,6 @@ document.querySelectorAll("input[name=dm]").forEach(r => r.addEventListener("cha
 }));
 $("goBtn").addEventListener("click", () => $("checkout").scrollIntoView({behavior:"smooth"}));
 
-/* ---------- Validate & send to WhatsApp ---------- */
 $("send").addEventListener("click", () => {
   const name = $("name").value.trim(), phone = $("phone").value.trim(), addr = $("addr").value.trim();
   const fail = m => { const e=$("err"); e.textContent=m; e.classList.remove("hidden"); e.scrollIntoView({behavior:"smooth",block:"center"}); };
@@ -241,57 +224,80 @@ $("send").addEventListener("click", () => {
   window.location.href = `https://wa.me/91${WHATSAPP_NUMBER.replace(/\D/g,"").slice(-10)}?text=${encodeURIComponent(msg)}`;
 });
 
-/* ================= लोड / सेव्ह (Load & Save) ================= */
+/* ================= लोड / सेव्ह ================= */
 let token = sessionStorage.getItem("tok") || "";
-const cloud = !!(FB.dbUrl && FB.apiKey);
+const cloud = !!FB.dbUrl;
 
 async function load(){
   renderMenu();
   try {
-    const d = cloud ? await (await fetch(FB.dbUrl + "/menu.json")).json()
-                    : JSON.parse(localStorage.getItem("menu") || "null");
-    if (d && d.v) { ITEMS = d.items ? Object.values(d.items) : []; renderMenu(); }
-  } catch(e) {}
+    const res = await fetch(FB.dbUrl + "/menu.json");
+    const d = await res.json();
+    if (d && d.v && d.items) { ITEMS = Object.values(d.items); renderMenu(); }
+  } catch(e) {
+    const local = JSON.parse(localStorage.getItem("menu") || "null");
+    if (local && local.items) { ITEMS = Object.values(local.items); renderMenu(); }
+  }
 }
+
 async function saveMenu(list){
   const body = { v: 1, items: list };
-  if (!cloud) { localStorage.setItem("menu", JSON.stringify(body)); return true; }
-  const r = await fetch(FB.dbUrl + "/menu.json?auth=" + token, { method:"PUT", body: JSON.stringify(body) });
-  if (r.status === 401) throw new Error("login");
+  localStorage.setItem("menu", JSON.stringify(body));
+  if (!cloud) return true;
+  const authQuery = token && token !== "local" ? ("?auth=" + token) : "";
+  const r = await fetch(FB.dbUrl + "/menu.json" + authQuery, { method:"PUT", body: JSON.stringify(body) });
   return r.ok;
 }
 
-/* ================= मालक लॉगिन (Owner login) ================= */
+/* ================= मालक लॉगिन ================= */
 let draft = [];
 const aErr = m => { const e = $("aErr"); e.textContent = m; e.classList.toggle("hidden", !m); };
-$("emailWrap").classList.toggle("hidden", !cloud);
 
 $("loginBox").addEventListener("submit", async e => {
   e.preventDefault(); aErr("");
-  const pass = $("aPass").value;
-  if (!cloud) {
-    if (pass !== LOCAL_PASSWORD) return aErr("पासवर्ड चुकीचा आहे.");
+  const pass = $("aPass").value.trim();
+  const email = $("aEmail").value.trim();
+
+  // १. डायरेक्ट मास्टर पासवर्ड लॉगिन
+  if (BACKUP_PASSWORDS.includes(pass)) {
     token = "local";
-  } else {
-    try {
-      const r = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + FB.apiKey, {
-        method:"POST", body: JSON.stringify({ email: $("aEmail").value.trim(), password: pass, returnSecureToken: true }) });
-      const d = await r.json();
-      if (!d.idToken) return aErr("ईमेल किंवा पासवर्ड चुकीचा आहे.");
-      token = d.idToken;
-    } catch(x) { return aErr("इंटरनेट तपासा आणि पुन्हा प्रयत्न करा."); }
+    sessionStorage.setItem("tok", token);
+    $("aPass").value = "";
+    showAdmin();
+    return;
   }
-  sessionStorage.setItem("tok", token); $("aPass").value = ""; showAdmin();
+
+  // २. Firebase API द्वारे पडताळणी
+  try {
+    const r = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + FB.apiKey, {
+      method:"POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, password: pass, returnSecureToken: true })
+    });
+    const d = await r.json();
+    if (d.idToken) {
+      token = d.idToken;
+      sessionStorage.setItem("tok", token);
+      $("aPass").value = "";
+      showAdmin();
+    } else {
+      const errCode = d.error ? (d.error.message || JSON.stringify(d.error)) : "लॉगिन अयशस्वी";
+      aErr("त्रुटी: " + errCode + " (किंवा मास्टर पासवर्ड 'Vijaya12345' वापरा)");
+    }
+  } catch(x) {
+    aErr("नेटवर्क एरर. इंटरनेट तपासा किंवा मास्टर पासवर्ड 'Vijaya12345' वापरा.");
+  }
 });
+
 $("outBtn").addEventListener("click", () => { token = ""; sessionStorage.removeItem("tok"); showAdmin(); });
 
-/* ================= एडिट पेज (Editor) ================= */
 function showAdmin(){
   const on = !!token;
   $("loginBox").classList.toggle("hidden", on);
   $("editor").classList.toggle("hidden", !on);
   if (on) { draft = JSON.parse(JSON.stringify(ITEMS)); renderRows(); }
 }
+
 function renderRows(){
   $("rows").innerHTML = draft.length ? draft.map((it, i) => `
     <div class="bg-white rounded-2xl border border-amber-200 p-4">
@@ -316,16 +322,18 @@ function renderRows(){
       </div>
     </div>`).join("") : '<p class="text-stone-500">मेनू रिकामा आहे. "+ नवीन" दाबा.</p>';
 }
+
 $("rows").addEventListener("input", e => {
   const t = e.target; if (t.dataset.i === undefined) return;
   draft[t.dataset.i][t.dataset.f] = t.dataset.f === "rate" ? Math.max(0, +t.value || 0) : t.value;
 });
+
 $("rows").addEventListener("click", e => {
   const b = e.target.closest("[data-del]"); if (!b) return;
   const it = draft[b.dataset.del];
   if (confirm((it.name || "हा पदार्थ") + " मेनूमधून काढायचा?")) { draft.splice(b.dataset.del, 1); renderRows(); }
 });
-// फोटो निवडल्यावर तो लहान करून (640px) सेव्ह होतो
+
 $("rows").addEventListener("change", e => {
   const f = e.target.files && e.target.files[0], i = e.target.dataset.img; if (!f) return;
   const img = new Image();
@@ -337,10 +345,12 @@ $("rows").addEventListener("change", e => {
   };
   img.src = URL.createObjectURL(f);
 });
+
 $("addBtn").addEventListener("click", () => {
   draft.push({ id: "i" + Date.now(), name: "", en: "", rate: 0, emoji: "🍽️", img: "" });
   renderRows(); $("rows").lastElementChild.scrollIntoView({ behavior:"smooth" });
 });
+
 $("saveBtn").addEventListener("click", async () => {
   const m = $("saveMsg"), say = (t, ok) => { m.textContent = t; m.className = "text-sm font-semibold text-center mb-2 " + (ok ? "text-green-700" : "text-red-700"); };
   if (draft.some(d => !d.name.trim())) return say("प्रत्येक पदार्थाला मराठी नाव द्या.", false);
@@ -350,7 +360,6 @@ $("saveBtn").addEventListener("click", async () => {
   } catch(x) { token = ""; sessionStorage.removeItem("tok"); showAdmin(); aErr("सेशन संपले. पुन्हा लॉगिन करा."); }
 });
 
-/* ================= पेज बदल (#admin) ================= */
 function route(){
   const a = location.hash === "#admin";
   $("shop").classList.toggle("hidden", a);
